@@ -22,7 +22,7 @@ namespace FriendlySpork.Tests
         {
             // Arrange
             var callbackExecuted = false;
-            Auth0ClientFactoryOptions callbackOptions = null;
+            Auth0FactoryOptions callbackOptions = null;
 
             // Act
             mockServices.Object.AddAuth0ManagementApi((options) =>
@@ -40,7 +40,7 @@ namespace FriendlySpork.Tests
         public void AddAuth0ManagementApi_ShouldAddIAuth0ClientFactoryAsSingleton()
         {
             // Arrange
-            var mockConfigureOptionsCallback = new Mock<Action<Auth0ClientFactoryOptions>>();
+            var mockConfigureOptionsCallback = new Mock<Action<Auth0FactoryOptions>>();
             var singletonFactoryAdded = false;
 
             mockServices
@@ -65,7 +65,7 @@ namespace FriendlySpork.Tests
         public void AddAuth0ManagementApi_ShouldAddIManagementApiClientAsTransient()
         {
             // Arrange
-            var mockConfigureOptionsCallback = new Mock<Action<Auth0ClientFactoryOptions>>();
+            var mockConfigureOptionsCallback = new Mock<Action<Auth0FactoryOptions>>();
             var transientClientAdded = false;
 
             mockServices

@@ -8,17 +8,14 @@ namespace FriendlySpork
     {
         public static IServiceCollection AddAuth0ManagementApi(
             this IServiceCollection services,
-            Action<Auth0ClientFactoryOptions> configureOptions)
+            Action<Auth0FactoryOptions> configureOptions)
         {
-            var options = new Auth0ClientFactoryOptions();
+            var options = new Auth0FactoryOptions();
             configureOptions(options);
 
-            IAuth0ClientFactory auth0ClientFactory = new Auth0ClientFactory(
-                options.Domain,
-                options.ClientId,
-                options.ClientSecret);
-
-            services.AddSingleton<IAuth0ClientFactory>(auth0ClientFactory);
+            services.AddSingleton(options);
+            services.AddSingleton<IAuth0AccessTokenFactory, Auth0AccessTokenFactory>();
+            services.AddSingleton<IAuth0ClientFactory, Auth0ClientFactory>();
             services.AddTransient(CreateManagementApi);
 
             return services;

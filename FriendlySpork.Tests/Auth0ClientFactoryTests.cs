@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using RichardSzalay.MockHttp;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace FriendlySpork.Tests
@@ -11,40 +9,48 @@ namespace FriendlySpork.Tests
     public class Auth0ClientFactoryTests
     {
         private string domain;
-        private MockHttpMessageHandler mockHttpMessageHandler;
-        private Auth0ClientFactory auth0ClientFactory;
+        private Mock<IAuth0AccessTokenFactory> mockAccessTokenFactory;
+        private Auth0ClientFactory clientFactory;
 
         [TestInitialize]
         public void Initialize()
         {
             domain = Guid.NewGuid().ToString();
+            mockAccessTokenFactory = new Mock<IAuth0AccessTokenFactory>();
 
-            mockHttpMessageHandler = new MockHttpMessageHandler();
-            mockHttpMessageHandler.AutoFlush = true;
-
-            auth0ClientFactory = new Auth0ClientFactory(
+            clientFactory = new Auth0ClientFactory(
                 domain,
-                null,
-                null,
-                mockHttpMessageHandler.ToHttpClient());
+                mockAccessTokenFactory.Object);
         }
 
         [TestMethod]
-        public async Task GetManagementApiClientAsync_UsesHttpClient()
+        public async Task GetManagementApiClientAsync_CallsTokenFactoryAndReturnClientObject()
         {
             // Arrange
-            mockHttpMessageHandler
-                .When(HttpMethod.Post, $"https://{domain}/oauth/token")
-                .Respond(request => new HttpResponseMessage()
-                {
-                    Content = new StringContent("{ 'access_token': '', 'token_type': '', expires_in: 0 }")
-                });
+            mockAccessTokenFactory
+                .Setup(mock => mock.GetAccessTokenAsync())
+                .ReturnsAsync(Guid.NewGuid().ToString());
 
             // Act
-            var client = await auth0ClientFactory.GetManagementApiClientAsync();
+            var client = await clientFactory.GetManagementApiClientAsync();
 
             // Assert
-            mockHttpMessageHandler.VerifyNoOutstandingRequest();
+            Assert.IsNotNull(client);
+        }
+
+        [TestMethod]
+        public void GetManagementApiClient_CallsTokenFactoryAndReturnClientObject()
+        {
+            // Arrange
+            mockAccessTokenFactory
+                .Setup(mock => mock.GetAccessTokenAsync())
+                .ReturnsAsync(Guid.NewGuid().ToString());
+
+            // Act
+            var client = clientFactory.GetManagementApiClient();
+
+            // Assert
+            Assert.IsNotNull(client);
         }
     }
 }

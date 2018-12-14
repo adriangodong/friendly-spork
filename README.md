@@ -20,6 +20,7 @@ services.AddAuth0ManagementApi(options =>
     options.Domain = "your Auth0 domain";
     options.ClientId = "client id";
     options.ClientSecret = "client secret";
+    options.ReuseAccessToken = false;
 });
 ```
 
