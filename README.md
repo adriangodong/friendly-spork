@@ -10,9 +10,9 @@ Extensions to integrate Auth0 .NET SDK with ASP.NET Core.
 
 ## Installation/Usage
 
-1. Get it from Nuget
+1. Install the [FriendlySpork package from NuGet](https://www.nuget.org/packages/FriendlySpork).
 
-2. For ASP.NET Core, add the following code in your `Startup.ConfigureServices` method:
+2. Add the following code in your dependency injection logic (`Startup.ConfigureServices` in ASP.NET Core):
 
 ```
 services.AddAuth0ManagementApi(options =>
