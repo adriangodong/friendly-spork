@@ -5,6 +5,9 @@ using System.Text;
 
 namespace FriendlySpork.Models
 {
+    /// <summary>
+    /// HttpContent with JSON-serialized object as its content.
+    /// </summary>
     public sealed class ApplicationJsonContent : StringContent
     {
         public ApplicationJsonContent(object content) : base(GetContentString(content), Encoding.UTF8)
