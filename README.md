@@ -2,7 +2,11 @@
 
 Extensions to integrate Auth0 .NET SDK with ASP.NET Core.
 
-## [Changelog](CHANGELOG.md)
+## Status
+
+[![Build status](https://ci.appveyor.com/api/projects/status/bkxboveka5fv24ig/branch/master?svg=true)](https://ci.appveyor.com/project/adriangodong/friendly-spork/branch/master)
+
+[Changelog](CHANGELOG.md)
 
 ## Installation/Usage
 
