@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>FriendlySpork</Title>
+    <Description>Extensions to integrate Auth0 .NET SDK with ASP.NET Core.</Description>
+    <PackageProjectUrl>https://github.com/adriangodong/friendly-spork</PackageProjectUrl>
+    <PackageTags>auth0;aspnet;extensions</PackageTags>
+    <Version>0.0.0</Version>
+
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Auth0.ManagementApi" Version="5.10.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+</Project>

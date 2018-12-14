@@ -21,3 +21,26 @@ install:
     Update-AppveyorBuild -Version "$env:COMMIT_DESCRIPTION.$env:APPVEYOR_BUILD_NUMBER"
 
     Add-AppveyorMessage -Message "Build version is $env:COMMIT_DESCRIPTION"
+
+
+dotnet_csproj:
+  patch: true
+  file: 'FriendlySpork\FriendlySpork.csproj'
+  version: $(commit_description)
+
+
+before_build:
+- cmd: dotnet restore
+
+
+build:
+  project: FriendlySpork.sln
+
+
+test_script:
+  - cmd: dotnet test FriendlySpork.Tests/FriendlySpork.Tests.csproj
+
+
+artifacts:
+- path: '**/*.nupkg'
+  name: Nuget Packages
