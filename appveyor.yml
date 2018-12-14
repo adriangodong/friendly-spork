@@ -1,0 +1,23 @@
+image: Visual Studio 2017
+configuration: Release
+version: '{build}'
+
+install:
+- ps: >-
+    if ($env:APPVEYOR_REPO_TAG -eq "false")
+    {
+      $version = & { git describe --tags } 2>&1
+      $baseVersion = (& { git describe --tags --abbrev=0 }) 2>&1
+      $prereleaseVersion = $version.SubString($baseVersion.Length)
+      $adjustedBaseVersion = $baseVersion.Split(".")
+      $adjustedBaseVersion[2] = ($adjustedBaseVersion[2] / 1) + 1
+      $env:COMMIT_DESCRIPTION = [System.String]::Join(".", $adjustedBaseVersion) + $prereleaseVersion
+    }
+    else
+    {
+      $env:COMMIT_DESCRIPTION = $env:APPVEYOR_REPO_TAG_NAME
+    }
+
+    Update-AppveyorBuild -Version "$env:COMMIT_DESCRIPTION.$env:APPVEYOR_BUILD_NUMBER"
+
+    Add-AppveyorMessage -Message "Build version is $env:COMMIT_DESCRIPTION"
