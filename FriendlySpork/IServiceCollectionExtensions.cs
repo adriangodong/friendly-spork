@@ -20,8 +20,12 @@ namespace FriendlySpork
             configureOptions(options);
 
             services.AddSingleton(options);
-            services.AddSingleton<IAuth0AccessTokenFactory, Auth0AccessTokenFactory>();
-            services.AddSingleton<IAuth0ClientFactory, Auth0ClientFactory>();
+            services.AddSingleton<IAuth0AccessTokenFactory>(
+                serviceProvider => new Auth0AccessTokenFactory(options));
+            services.AddSingleton<IAuth0ClientFactory>(
+                serviceProvider => new Auth0ClientFactory(
+                    options,
+                    serviceProvider.GetRequiredService<IAuth0AccessTokenFactory>()));
             services.AddTransient(CreateManagementApi);
 
             return services;

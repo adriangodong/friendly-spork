@@ -18,7 +18,7 @@ namespace FriendlySpork
 
         public Auth0ClientFactory(
             Auth0FactoryOptions options,
-            Auth0AccessTokenFactory auth0AccessTokenFactory) :
+            IAuth0AccessTokenFactory auth0AccessTokenFactory) :
             this(options.Domain, auth0AccessTokenFactory)
         {
         }
